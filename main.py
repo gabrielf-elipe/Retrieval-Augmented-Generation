@@ -16,20 +16,20 @@ embeddings = OllamaEmbeddings(
     model="mxbai-embed-large"
 )
 # define a llm q vai ser usada
-llm = ChatOllama(model="llama3.2:3b", temperature=0.5) 
+llm = ChatOllama(model="llama3.2:3b", temperature=0.6) 
 # ja testei o phi,llama3.2:3b, stablelm2 e qwen3.5, o qwen3.5 foi o que funcionou melhor mas ele demora muito pra rodar no meu pc
 #então segui com o llama3.2:3b, que foi o segundo melhor
 load_db=Chroma(collection_name="collectionlegal", persist_directory=CHROMA_PATH,embedding_function=embeddings)
-retriever=load_db.as_retriever(search_kwargs={"k":4}) #especificando que vai retornar os 4 (default) docs mais relevantes para a query
+retriever=load_db.as_retriever(search_kwargs={"k":10}) #especificando que vai retornar os 4 (default) docs mais relevantes para a query
 def format_docs(docs):
     contexto = "\n\n".join(doc.page_content for doc in docs)
 
-    
     """
     print("===== CONTEXTO =====")
     print(contexto)
     print("====================")
     """
+   
     # ^^^^ descomentar isso aqui se quiser ver oq a ia ta recebendo como contexto
     
 
@@ -59,10 +59,22 @@ setup_and_retrieval = RunnableParallel(
 )
 chain = setup_and_retrieval | prompt | llm | output_parser
 
-pergunta = str(input("pergunta: "))
-resp=chain.invoke(pergunta)
-print(resp)
+def answer(message, history):
+    response = chain.invoke(message)
+    return response
 
+interface = gr.ChatInterface(
+    answer,
+    examples=["Analisando os documentos, o que pode ser apontado como tema principal?"],
+    title="Retrieval-Augmented Generation",
+    description="Faça perguntas sobre seus documentos PDF",
+    textbox=gr.Textbox(
+        placeholder="Digite sua pergunta aqui...",
+        container=False,
+        scale=7
+    ),
+)
+
+interface.launch()
 #tenho que testar com diferentes tamanhos de doc.
 
-# vo fazer uma interface com o gradio
