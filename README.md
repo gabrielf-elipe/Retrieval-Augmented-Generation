@@ -53,5 +53,5 @@ Após instalar o Ollama em https://ollama.ai :
 ollama pull llama3.2:3b
 
 # Baixar o modelo de embeddings
-ollama pull nomic-embed-text
+ollama pull mxbai-embed-large
 ```
