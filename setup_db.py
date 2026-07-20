@@ -10,6 +10,7 @@ CHROMA_PATH = r"chroma_db"
 # embedding
 embeddings = OllamaEmbeddings(
     model="mxbai-embed-large"
+    
 )   
 
 #carregar o pdf:
@@ -22,6 +23,7 @@ documents = loader.load()
 # "picotar" o documento:
 print("picotando os docs em chunks")
 text_splitter = RecursiveCharacterTextSplitter(
+    # esses parametros estão em analise, não cheguei na conclusão se são os melhores
     chunk_size=1000,
     chunk_overlap=100
 )

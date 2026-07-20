@@ -54,4 +54,33 @@ ollama pull llama3.2:3b
 
 # Baixar o modelo de embeddings
 ollama pull mxbai-embed-large
+
+# OBS: é possível utilizar outros modelos de sua preferência
 ```
+
+---
+
+## 💻 Como usar
+### 1. Adicionar PDFs
+Coloque seus arquivos PDFs na pasta 'data/'
+
+### 2. Criar o banco de dados vetorial
+```bash
+python setup_db.py
+```
+
+### 3. Executar o programa principal
+```bash
+python main.py
+```
+
+Isso permitirá o acesso a uma interface no navegador, cujo endereço será informado pelo terminal.
+
+### 4. Fazer Perguntas
+Escreva suas perguntas na interface do Gradio e receba respostas baseadas nos seus PDFs!
+
+## 🔮 Proximos passos do projeto
+- Trabalhar com diferentes tipos de arquivo, docx. xml, csv...
+- Ser capaz de interpretar imagens.
+- Analises mais profundas com capacidade de gerar gráficos
+- Estudar e implementar os melhores parâmetros para o banco vetorial e para os modelos.
